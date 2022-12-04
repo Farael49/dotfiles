@@ -1,17 +1,13 @@
-#-- OH MY ZSH --#
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-#zmodload zsh/zprof # uncomment for profiling
-#use this for profiling : for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
-## Install
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# --- or offline install via :
-# git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-# cp ~/.zshrc ~/.zshrc.bck
-# cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-# chsh -s $(which zsh)
-
-export ZSH=${HOME}/.oh-my-zsh
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
 ZSH_THEME="gregouz"
 
@@ -40,30 +36,68 @@ plugins=(
   zsh-syntax-highlighting
   zshfl # from .oh-my-zsh/custom/plugins
 )
-## OS Specifics
-if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
-  local DISTRIB=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
-  if [[ "${DISTRIB}" = "Ubuntu"* ]]; then
-    plugins+=(ubuntu)
-    skip_global_compinit=1
-  elif [[ "${DISTRIB}" = "Debian"* ]]; then
-    plugins+=(debian)
-  fi
-elif [[ "${OSTYPE}" == "darwin"* ]]; then
-  plugins+=(osx)
-fi
-## finally
-source ${ZSH}/oh-my-zsh.sh
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-#-- MACOS SPECIFICS --#
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  # curl -L https://iterm2.com/shell_integration/zsh -o ~/.iterm2_shell_integration.zsh
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-  # Specify the preferences directory
-  defaults write com.googlecode.iterm2 "PrefsCustomFolder" -string "~/.config/iterm2/config"
-  # Tell iTerm2 to use the custom preferences in the directory
-  defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
-fi
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+
+source $ZSH/oh-my-zsh.sh
 
 #-- OPTIONS --#
 # Print duration of command if it took more than 10 seconds
@@ -71,79 +105,33 @@ REPORTTIME=10
 setopt HIST_REDUCE_BLANKS # remove superfluous blanks from history items
 setopt INC_APPEND_HISTORY # save history entries as soon as they are entered
 setopt EXTENDED_HISTORY # remember command start time and duration
-# setopt share_history # share history between different instances of the shell
 
-#-- SUBLIME TEXT --#
-# windows = sudo ln -s /mnt/c/Program\ Files/Sublime\ Text\ 3/subl.exe /usr/bin/sublime
-# macOS = ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
-# linux = ln -s /usr/bin/subl /usr/bin/sublime
 
-#-- EXPORTS --#
-# OS Specifics
-if [[ "${OSTYPE}" == "linux-gnu"* ]]; then # linux
-  export NODE_BIN=/usr/local/opt/node@10/bin
-  export PIP_BIN=${HOME}/.local/bin
-  export RUBY_BIN=/usr/bin
-  export OPENJDK_BIN=
-elif [[ "${OSTYPE}" == "darwin"* ]]; then # macOS
-  export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
-  export CPPFLAGS="-I/usr/local/opt/llvm/include"
-  export LLVM_BIN="/usr/local/opt/llvm/bin"
-  export CC="/usr/local/opt/llvm/bin/clang"
-  export CXX="${CC}++"
-  export NODE_BIN=/usr/local/opt/node@10/bin
-  export PIP_BIN=${HOME}/Library/Python/3.9/bin
-  export RUBY_BIN=/usr/local/opt/ruby/bin
-  export OPENJDK_BIN=/usr/local/opt/openjdk/bin
-fi
-# ZSH
-export EDITOR='sublime -w'
-export LANG='en_US.UTF-8'
-export LC_ALL='en_US.UTF-8'
-export MANPAGER='less -X' # Don’t clear the screen after quitting a manual page.
-mkdir -p ${HOME}/{.config,.cache,.local}
-export XDG_CONFIG_HOME=${HOME}/.config
-export XDG_CACHE_HOME=${HOME}/.cache
-export XDG_DATA_HOME=${HOME}/.local/share
-# XDG_CACHE_HOME
-mkdir -p ${XDG_CACHE_HOME}/{npm}
-# XDG_CONFIG_HOME
-mkdir -p ${XDG_CONFIG_HOME}/{inetutils,zsh}
-export NETRC=${XDG_CONFIG_HOME}/inetutils/netrc
-export HISTFILE=${XDG_CONFIG_HOME}/zsh/zsh_history
-# XDG_DATA_HOME
-mkdir -p ${XDG_DATA_HOME}/{cargo,deno,python,sqlite}
-export CARGO_HOME=${XDG_DATA_HOME}/cargo
-export DENO_DIR=${XDG_DATA_HOME}/deno
-export PYTHONHISTFILE=${XDG_DATA_HOME}/python/history
-export SQLITE_HISTORY=${XDG_DATA_HOME}/sqlite/history
-# PYTHON
-export PYTHONIOENCODING='UTF-8' # use UTF-8 for stdin,stdout,stderr
-# BINARIES
-export USER_BIN=/usr/local/bin:/usr/local/sbin:${HOME}/.local/bin:${HOME}/bin
-export GOPATH=${HOME}/go
-export GOBIN=${GOPATH}/bin
-export CARGO_BIN=${CARGO_HOME}/bin
-export OLD_PATH=${PATH}
-export PATH=${PATH}:${GOBIN}:${CARGO_BIN}:${PIP_BIN}:${NODE_BIN}:${RUBY_BIN}:${LLVM_BIN}:${OPENJDK_BIN}:${USER_BIN}
-# FOLDERS
-export ARCHIVE=${HOME}/Nextcloud/Documents/archive
-export NEXTCLOUD=${HOME}/Nextcloud
+# User configuration
 
-#-- ALIASES --#
-# OS Specifics
-if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
-  if grep -qi microsoft /proc/version 2> /dev/null; then # Microsoft WSL2
-    alias open="explorer.exe"
-    alias pbcopy="clip.exe"
-  else
-    alias open="xdg-open"
-    alias pbcopy="xclip -selection clipboard"
-  fi
-elif [[ "${OSTYPE}" == "darwin"* ]]; then
-  #
-fi
+# export MANPATH="/usr/local/man:$MANPATH"
 
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cp="cp -iv"
 alias delete_ds_store="find . -name '.DS_Store' -type f -delete"
 alias dotfiles='/usr/bin/git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
@@ -170,6 +158,40 @@ alias todo="sublime ${NEXTCLOUD}/Notes/_TODO.txt"
 alias wget="wget --hsts-file ${XDG_DATA_HOME}/wget/wget_hsts"
 alias xargs='xargs ' # create an xargs alias with trailing space
 alias zshconfig="sublime ~/.zshrc"
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust \
+    jonmosco/kube-ps1
+
+### End of Zinit's installer chunk
+
+bindkey '^ I'   complete-word       # tab         | complete
+bindkey '^[[Z' autosuggest-accept  # shift + tab  | autosuggest
+source <(kubectl completion zsh)
+
+export KUBECONFIG=~/.kube/config:~/.kube/kube-dev.yaml:~/.kube/kube-tech.yaml:~/.kube/admin-kube-dev.yaml:~/.kube/kube-preprod.yaml:~/.kube/kube-prod.yaml
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+#Might not be the proper way but well
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 #-- FUNCTIONS --#
 
@@ -443,5 +465,3 @@ elif [[ "${OSTYPE}" == "darwin"* ]]; then # macOS
     npm list -g --depth=0 
   }
 fi
-
-# zprof # uncomment for profiling
