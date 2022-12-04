@@ -37,7 +37,7 @@ function virtualenv_info {
 
 function kubernetes_info {
     if typeset -f kube_ps1 > /dev/null; then
-        KUBE_PS1_PREFIX=" k8s:("
+        KUBE_PS1_PREFIX=" \e[38;5;69m %B\u2638%b \e[0m("
         KUBE_PS1_SUFFIX=")"
         KUBE_PS1_SYMBOL_ENABLE="false"
         kube_ps1
@@ -52,5 +52,5 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_VIRTUALENV_PREFIX=" ("
 ZSH_THEME_VIRTUALENV_SUFFIX=")"
 
-PROMPT='$FG[248][%*]%f $FG[119]%n@%m%f:%{$terminfo[bold]$fg[blue]%}%//%{$reset_color%}$(git_prompt_info)$(virtualenv_info)$(kubernetes_info)
+PROMPT='$FG[248][%*]%f $FG[119]%n@%m%f:$FG[069]%{$terminfo[bold]%}%//%{$reset_color%}$(git_prompt_info)$(virtualenv_info)$(kubernetes_info)
 %(?.%F{green}.%F{red})%? ❯%f $ '
